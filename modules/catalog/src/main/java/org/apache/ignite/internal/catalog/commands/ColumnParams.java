@@ -17,8 +17,6 @@
 
 package org.apache.ignite.internal.catalog.commands;
 
-import static org.apache.ignite.internal.lang.IgniteStringFormatter.format;
-
 import java.util.Objects;
 import org.apache.ignite.internal.catalog.CatalogParamsValidationUtils;
 import org.apache.ignite.internal.catalog.CatalogValidationException;
@@ -226,11 +224,11 @@ public class ColumnParams {
             CatalogParamsValidationUtils.validateIdentifier(params.name(), "Column name");
 
             if (params.type == null) {
-                throw new CatalogValidationException(format("Type is not specified for column '{}'", params.name()));
+                throw new CatalogValidationException("Type is not specified for column '{}'", params.name());
             }
 
             if (params.type == ColumnType.NULL) {
-                throw new CatalogValidationException(format("Type NULL is not applicable for column '{}'", params.name()));
+                throw new CatalogValidationException("Type NULL is not applicable for column '{}'", params.name());
             }
 
             boolean validatePrecision = params.type.precisionAllowed();
@@ -240,15 +238,15 @@ public class ColumnParams {
 
             if (validateLength) {
                 if (length == null) {
-                    throw new CatalogValidationException(format(ERR_COL_PARAM_DEFINITION, "Length", params.name(), params.type()));
+                    throw new CatalogValidationException(ERR_COL_PARAM_DEFINITION, "Length", params.name(), params.type());
                 }
 
                 if (length < 1) {
-                    throw new CatalogValidationException(format(ERR_COL_POSITIVE_PARAM_VALIDATION, "Length", params.name(), params.type()));
+                    throw new CatalogValidationException(ERR_COL_POSITIVE_PARAM_VALIDATION, "Length", params.name(), params.type());
                 }
             } else {
                 if (params.length() != null) {
-                    throw new CatalogValidationException(format(ERR_COL_PARAM_NOT_APPLICABLE, "Length", params.name(), params.type()));
+                    throw new CatalogValidationException(ERR_COL_PARAM_NOT_APPLICABLE, "Length", params.name(), params.type());
                 }
             }
 
@@ -256,7 +254,7 @@ public class ColumnParams {
                 validatePrecision(params);
 
                 if (params.scale() != null && !validateScale) {
-                    throw new CatalogValidationException(format(ERR_COL_PARAM_NOT_APPLICABLE, "Scale", params.name(), params.type()));
+                    throw new CatalogValidationException(ERR_COL_PARAM_NOT_APPLICABLE, "Scale", params.name(), params.type());
                 }
             }
 
@@ -266,11 +264,11 @@ public class ColumnParams {
 
             if (!validatePrecision && !validateScale) {
                 if (params.precision() != null) {
-                    throw new CatalogValidationException(format(ERR_COL_PARAM_NOT_APPLICABLE, "Precision", params.name(), params.type()));
+                    throw new CatalogValidationException(ERR_COL_PARAM_NOT_APPLICABLE, "Precision", params.name(), params.type());
                 }
 
                 if (params.scale() != null) {
-                    throw new CatalogValidationException(format(ERR_COL_PARAM_NOT_APPLICABLE, "Scale", params.name(), params.type()));
+                    throw new CatalogValidationException(ERR_COL_PARAM_NOT_APPLICABLE, "Scale", params.name(), params.type());
                 }
             }
         }
@@ -279,11 +277,11 @@ public class ColumnParams {
             Integer precision = params.precision();
 
             if (precision == null) {
-                throw new CatalogValidationException(format(ERR_COL_PARAM_DEFINITION, "Precision", params.name(), params.type()));
+                throw new CatalogValidationException(ERR_COL_PARAM_DEFINITION, "Precision", params.name(), params.type());
             }
 
             if (precision < 0) {
-                throw new CatalogValidationException(format(ERR_COL_PARAM_VALIDATION, "Precision", params.name(), params.type()));
+                throw new CatalogValidationException(ERR_COL_PARAM_VALIDATION, "Precision", params.name(), params.type());
             }
         }
 
@@ -291,11 +289,11 @@ public class ColumnParams {
             Integer scale = params.scale();
 
             if (scale == null) {
-                throw new CatalogValidationException(format(ERR_COL_PARAM_DEFINITION, "Scale", params.name(), params.type()));
+                throw new CatalogValidationException(ERR_COL_PARAM_DEFINITION, "Scale", params.name(), params.type());
             }
 
             if (scale < 0) {
-                throw new CatalogValidationException(format(ERR_COL_PARAM_VALIDATION, "Scale", params.name(), params.type()));
+                throw new CatalogValidationException(ERR_COL_PARAM_VALIDATION, "Scale", params.name(), params.type());
             }
         }
     }
